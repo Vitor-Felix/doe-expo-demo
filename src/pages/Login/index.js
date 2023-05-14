@@ -21,7 +21,7 @@ const LoginScreen = () => {
 
   const handleRegister = () => {
     // Handle registration functionality here
-    console.log('Navigating to registration page...');
+    navigation.navigate('Register');
   };
 
   return (

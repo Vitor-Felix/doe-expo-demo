@@ -2,8 +2,12 @@ import React from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { styles } from './styles';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const FeedScreen = () => {
+
+  const navigation = useNavigation();
+
   const posts = [
     {
       id: 1,
@@ -54,7 +58,7 @@ const FeedScreen = () => {
             <Image source={post.image} style={styles.postImage} />
             <Text style={styles.postAddress}>{post.address}</Text>
             <Text style={styles.postPhoneNumber}>{post.phoneNumber}</Text>
-            <TouchableOpacity onPress={() => handlePostPress(post)}>
+            <TouchableOpacity onPress={() => showPostDetailsPress(post)}>
                 <Text style={styles.postDescription}>{truncateDescription(post.description)}</Text>
                 <Text style={styles.readMoreText}>Ver mais detalhes</Text>
             </TouchableOpacity>
@@ -62,14 +66,16 @@ const FeedScreen = () => {
     ));
   };
 
+  const showPostDetailsPress = (post) => {
+    navigation.navigate('PostDetails', { post });
+  };
+
   const handleProfilePress = () => {
-    // Handle navigation to the User Profile Screen
-    console.log('Navigating to User Profile Screen...');
+    navigation.navigate('Profile');
   };
 
   const handlePostPress = () => {
-    // Handle navigation to the Post Screen
-    console.log('Navigating to Post Screen...');
+    navigation.navigate('NewPost');
   };
 
   const truncateDescription = (description) => {

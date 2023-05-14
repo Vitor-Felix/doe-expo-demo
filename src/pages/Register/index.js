@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text } from 'react-native';
 import { styles } from './styles';
+import { useNavigation } from '@react-navigation/native';
 
 const RegisterScreen = () => {
   const [fullName, setFullName] = useState('');
@@ -9,9 +10,13 @@ const RegisterScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [cellphone, setCellphone] = useState('');
 
+  const navigation = useNavigation();
+
   const handleRegister = () => {
     // Handle registration functionality here
     console.log('Registrando...');
+
+    navigation.navigate('Profile');
   };
 
   return (
