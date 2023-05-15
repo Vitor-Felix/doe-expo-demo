@@ -7,6 +7,10 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-start',
     padding: 20,
   },
+  scrollContainer: {
+    flexGrow: 1,
+    width: '100%'
+  },
   label: {
     fontSize: 16,
     fontWeight: 'bold',
@@ -33,5 +37,20 @@ export const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 16,
+  },
+  submitButton: {
+    width: '100%',
+    height: 40,
+    backgroundColor: 'green',
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  imagePreview: {
+    width: 200,
+    height: 200,
+    borderRadius: 5,
+    marginBottom: 10,
   },
 });

@@ -34,7 +34,8 @@ const NewPostScreen = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
+    <ScrollView style={styles.scrollContainer}>
       <Text style={styles.label}>Título:</Text>
       <TextInput
         style={styles.input}
@@ -80,6 +81,7 @@ const NewPostScreen = () => {
         <Text style={styles.buttonText}>Enviar</Text>
       </TouchableOpacity>
     </ScrollView>
+    </View>
   );
 };
 

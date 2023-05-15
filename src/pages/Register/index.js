@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, Image, ScrollView } from 'react-native';
 import { styles } from './styles';
 import { useNavigation } from '@react-navigation/native';
 
@@ -9,8 +9,26 @@ const RegisterScreen = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [cellphone, setCellphone] = useState('');
+  const [profilePhoto, setProfilePhoto] = useState('');
+  const [documentPhoto, setDocumentPhoto] = useState('');
 
   const navigation = useNavigation();
+
+  const handleTakeProfilePicture = () => {
+    navigation.navigate('TakePicture', {
+      onPictureTaken: (uri) => {
+        setProfilePhoto(uri);
+      },
+    });
+  };
+
+  const handleTakeDocumentPicture = () => {
+    navigation.navigate('TakePicture', {
+      onPictureTaken: (uri) => {
+        setDocumentPhoto(uri);
+      },
+    });
+  };
 
   const handleRegister = () => {
     // Handle registration functionality here
@@ -21,6 +39,7 @@ const RegisterScreen = () => {
 
   return (
     <View style={styles.container}>
+    <ScrollView style={styles.scrollContainer}>
       <Text style={styles.label}>Nome Completo</Text>
       <TextInput
         style={styles.input}
@@ -63,9 +82,26 @@ const RegisterScreen = () => {
         onChangeText={(text) => setCellphone(text)}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
+      <TouchableOpacity style={styles.button} onPress={handleTakeProfilePicture}>
+        <Text style={styles.buttonText}>Foto do Rosto</Text>
+      </TouchableOpacity>
+
+      {profilePhoto ? (
+        <Image source={{ uri: profilePhoto }} style={styles.imagePreview} />
+      ) : null}
+
+      <TouchableOpacity style={styles.button} onPress={handleTakeDocumentPicture}>
+        <Text style={styles.buttonText}>Foto do Documento</Text>
+      </TouchableOpacity>
+
+      {documentPhoto ? (
+        <Image source={{ uri: documentPhoto }} style={styles.imagePreview} />
+      ) : null}
+
+      <TouchableOpacity style={styles.submitButton} onPress={handleRegister}>
         <Text style={styles.buttonText}>Enviar</Text>
       </TouchableOpacity>
+    </ScrollView>
     </View>
   );
 };

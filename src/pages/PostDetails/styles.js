@@ -60,4 +60,17 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  whatsappButton: {
+    width: '100%',
+    height: 40,
+    backgroundColor: 'green',
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  whatsappButtonText: {
+    color: 'white',
+    fontSize: 16,
+  },
 });
