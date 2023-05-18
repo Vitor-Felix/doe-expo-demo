@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext }  from 'react';
 import { View, Text, Image } from 'react-native';
 import { styles } from './styles';
+import { UserContext } from '../../UserContext'
 
 const UserProfileScreen = () => {
-  const user = {
-    fullName: 'Maria da Silva Braga',
-    email: 'sample@mail.com',
-    phoneNumber: '+55 11 1234-5678',
-  };
+  // const user = {
+  //   fullName: 'Maria da Silva Braga',
+  //   email: 'sample@mail.com',
+  //   phoneNumber: '+55 11 1234-5678',
+  // };
+  const { user } = useContext(UserContext);
 
   return (
     <View style={styles.container}>

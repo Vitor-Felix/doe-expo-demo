@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { Camera } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker'; // Import the ImagePicker module
 import { styles } from './styles';
 
 const TakePictureScreen = ({ navigation, route }) => {
@@ -12,38 +13,33 @@ const TakePictureScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     (async () => {
-      // const { status } = await Camera.requestPermissionsAsync();
       const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
   }, []);
 
-  useEffect(() => {
-    console.log(hasPermission);
-  }, [hasPermission]);
-
   const handleTakePicture = async () => {
     if (cameraRef.current) {
       const { uri } = await cameraRef.current.takePictureAsync();
       setCapturedImage(uri);
-      // savePictureToGallery(uri);
     }
   };
 
-  /**
-   * Se achar que é bom salvar na galeria, descomente.
-   * Usar o CameraRoll do pacote "@react-native-camera-roll/camera-roll"
-   * Ex.: import { CameraRoll } from "@react-native-camera-roll/camera-roll";
-   * Porém tem que ir nas pastas do Android/iOS e add as permissões manualmente:
-   * https://github.com/react-native-cameraroll/react-native-cameraroll
-  */
-  // const savePictureToGallery = async (uri) => {
-  //   try {
-  //     await CameraRoll.saveAsync(uri);
-  //   } catch (error) {
-  //     console.log('Error saving picture to gallery:', error);
-  //   }
-  // };
+  const handlePickFromAlbum = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      console.log('Permission not granted');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    });
+
+    if (!result.cancelled) {
+      setCapturedImage(result.uri);
+    }
+  };
 
   const handleConfirm = () => {
     if (capturedImage) {
@@ -66,13 +62,16 @@ const TakePictureScreen = ({ navigation, route }) => {
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={handleTakePicture}>
-          <Text style={styles.buttonText}>Capturar</Text>
+          <Text style={styles.buttonText}>Capture</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handlePickFromAlbum}>
+          <Text style={styles.buttonText}>Pick from Album</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => setType(type === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back)}
         >
-          <Text style={styles.buttonText}>Virar</Text>
+          <Text style={styles.buttonText}>Flip</Text>
         </TouchableOpacity>
       </View>
 
@@ -80,7 +79,7 @@ const TakePictureScreen = ({ navigation, route }) => {
         <View style={styles.previewContainer}>
           <Image source={{ uri: capturedImage }} style={styles.previewImage} />
           <TouchableOpacity style={styles.confirmButton} onPress={handleConfirm}>
-            <Text style={styles.buttonText}>Confirmar</Text>
+            <Text style={styles.buttonText}>Confirm</Text>
           </TouchableOpacity>
         </View>
       )}

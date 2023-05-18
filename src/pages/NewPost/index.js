@@ -12,8 +12,6 @@ const NewPostScreen = () => {
   const [imageUri, setImageUri] = useState('');
 
   const handleTakePicture = () => {
-    // Handle taking a picture
-    // Open the camera or gallery to select an image
     navigation.navigate('TakePicture', {
       onPictureTaken: (uri) => {
         setImageUri(uri);
@@ -21,66 +19,85 @@ const NewPostScreen = () => {
     });
   };
 
-  const handleSubmit = () => {
-    // Handle submission of the new post
-    console.log('New post submitted!');
-    console.log('Title:', title);
-    console.log('Address:', address);
-    console.log('Cellphone Number:', cellphoneNumber);
-    console.log('Description:', description);
-    console.log('Image URI:', imageUri);
+  const handleSubmit = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('address', address);
+      formData.append('phonenumber', cellphoneNumber);
+      formData.append('description', description);
+      formData.append('photo', {
+        uri: imageUri,
+        type: 'image/jpeg',
+        name: 'photo.jpg',
+      });
 
-    navigation.navigate('Feed');
+      const response = await fetch('http://10.0.54.105:3000/donation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        body: formData,
+      });
+
+      if (response.ok) {
+        console.log('Donation submitted successfully!');
+        navigation.navigate('Feed');
+      } else {
+        console.error('Failed to submit donation');
+      }
+    } catch (error) {
+      console.error('Failed to submit donation:', error);
+      // Handle the error as needed
+    }
   };
 
   return (
     <View style={styles.container}>
-    <ScrollView style={styles.scrollContainer}>
-      <Text style={styles.label}>Título:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Digite o título"
-        value={title}
-        onChangeText={setTitle}
-      />
+      <ScrollView style={styles.scrollContainer}>
+        <Text style={styles.label}>Título:</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Digite o título"
+          value={title}
+          onChangeText={setTitle}
+        />
 
-      <Text style={styles.label}>Endereço:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Digite o endereço"
-        value={address}
-        onChangeText={setAddress}
-      />
+        <Text style={styles.label}>Endereço:</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Digite o endereço"
+          value={address}
+          onChangeText={setAddress}
+        />
 
-      <Text style={styles.label}>Número de Celular:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Digite o número de celular"
-        value={cellphoneNumber}
-        onChangeText={setCellphoneNumber}
-      />
+        <Text style={styles.label}>Número de Celular:</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Digite o número de celular"
+          value={cellphoneNumber}
+          onChangeText={setCellphoneNumber}
+        />
 
-      <Text style={styles.label}>Descrição:</Text>
-      <TextInput
-        style={styles.descriptionInput}
-        multiline
-        placeholder="Digite a descrição"
-        value={description}
-        onChangeText={setDescription}
-      />
+        <Text style={styles.label}>Descrição:</Text>
+        <TextInput
+          style={styles.descriptionInput}
+          multiline
+          placeholder="Digite a descrição"
+          value={description}
+          onChangeText={setDescription}
+        />
 
-      <TouchableOpacity style={styles.button} onPress={handleTakePicture}>
-        <Text style={styles.buttonText}>Tirar Foto</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handleTakePicture}>
+          <Text style={styles.buttonText}>Tirar Foto</Text>
+        </TouchableOpacity>
 
-      {imageUri ? (
-        <Image source={{ uri: imageUri }} style={styles.imagePreview} />
-      ) : null}
+        {imageUri ? <Image source={{ uri: imageUri }} style={styles.imagePreview} /> : null}
 
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>Enviar</Text>
-      </TouchableOpacity>
-    </ScrollView>
+        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Enviar</Text>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 };

@@ -45,6 +45,9 @@ export const styles = StyleSheet.create({
   postPhoneNumber: {
     fontSize: 14,
   },
+  textBold: {
+    fontWeight: 'bold'
+  },
   menuContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
