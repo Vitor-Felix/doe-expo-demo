@@ -11,6 +11,8 @@ Código fonte do aplicativo para Android/iOS.Seu funcionamento é integrado à [
 https://exp.host/@vitorfelix/doe-expo-demo
 
 ⚙️   Página do projeto: https://expo.dev/@vitorfelix/doe-expo-demo?serviceType=classic&distribution=expo-go
+### Vídeo do funcionamento do MVP 
+- https://vimeo.com/828494697?share=copy
 
 ## Setup para execução local
 - Instalar Expo-CLI
