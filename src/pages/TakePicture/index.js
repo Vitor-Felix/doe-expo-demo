@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { Camera } from 'expo-camera';
-import * as ImagePicker from 'expo-image-picker'; // Import the ImagePicker module
+import * as ImagePicker from 'expo-image-picker'; 
 import { styles } from './styles';
 
 const TakePictureScreen = ({ navigation, route }) => {

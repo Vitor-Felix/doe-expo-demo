@@ -13,8 +13,6 @@ const NewPostScreen = () => {
   const [imageUri, setImageUri] = useState('');
 
   const handleTakePicture = () => {
-    // Handle taking a picture
-    // Open the camera or gallery to select an image
     navigation.navigate('TakePicture', {
       onPictureTaken: (uri) => {
         setImageUri(uri);
@@ -61,7 +59,6 @@ const NewPostScreen = () => {
       navigation.navigate('Feed');
     } catch (error) {
       console.error('Failed to submit donation:', error);
-      // Handle the error as needed
     }
   };
 

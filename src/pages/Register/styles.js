@@ -41,16 +41,24 @@ export const styles = StyleSheet.create({
   submitButton: {
     width: '100%',
     height: 40,
-    backgroundColor: 'green',
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10,
+  },
+  enabledButton: {
+    backgroundColor: 'green',
+  },
+  disabledButton: {
+    backgroundColor: 'gray',
   },
   imagePreview: {
     width: 200,
     height: 200,
     borderRadius: 5,
     marginBottom: 10,
+  },
+  invalidInput: {
+    borderColor: 'red',
   },
 });

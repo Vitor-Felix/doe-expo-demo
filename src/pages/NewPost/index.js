@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './styles';
+import { UserContext } from '../../UserContext'
 
 const NewPostScreen = () => {
   const navigation = useNavigation();
   const [title, setTitle] = useState('');
   const [address, setAddress] = useState('');
-  const [cellphoneNumber, setCellphoneNumber] = useState('');
   const [description, setDescription] = useState('');
   const [imageUri, setImageUri] = useState('');
+  const { user } = useContext(UserContext);
 
   const handleTakePicture = () => {
     navigation.navigate('TakePicture', {
@@ -24,15 +25,16 @@ const NewPostScreen = () => {
       const formData = new FormData();
       formData.append('title', title);
       formData.append('address', address);
-      formData.append('phonenumber', cellphoneNumber);
+      formData.append('phonenumber', user.phoneNumber);
       formData.append('description', description);
       formData.append('photo', {
         uri: imageUri,
         type: 'image/jpeg',
         name: 'photo.jpg',
       });
+      formData.append('userid', user.email);
 
-      const response = await fetch('http://10.0.54.105:3000/donation', {
+      const response = await fetch('https://nodejs-production-c164.up.railway.app/donation', {
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -48,7 +50,6 @@ const NewPostScreen = () => {
       }
     } catch (error) {
       console.error('Failed to submit donation:', error);
-      // Handle the error as needed
     }
   };
 
@@ -71,13 +72,13 @@ const NewPostScreen = () => {
           onChangeText={setAddress}
         />
 
-        <Text style={styles.label}>Número de Celular:</Text>
+        {/* <Text style={styles.label}>Número de Celular:</Text>
         <TextInput
           style={styles.input}
           placeholder="Digite o número de celular"
           value={cellphoneNumber}
           onChangeText={setCellphoneNumber}
-        />
+        /> */}
 
         <Text style={styles.label}>Descrição:</Text>
         <TextInput

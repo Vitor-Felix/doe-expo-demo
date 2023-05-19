@@ -4,6 +4,7 @@ import { styles } from './styles';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { UserContext } from './../../UserContext';
+import Toast from 'react-native-toast-message';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -21,25 +22,23 @@ const LoginScreen = () => {
       if (response.data.login) {
         const user = response.data.user;
         setUser(user);
-        Alert.alert('Login Successful', `Welcome, ${user.fullName}!`);
+        // Alert.alert('Login Successful', `Welcome, ${user.fullName}!`);
+        Toast.show({
+          type: 'success',
+          text1: `Bem vindo(a), ${user.fullName}!`,
+        });
 
-        // Navigate to the feed screen or any other screen
         navigation.navigate('Feed');
       } else {
-        // Handle invalid login
-        // Replace with your logic
-        Alert.alert('Login Failed', response.data.message);
+        Alert.alert('Falha no Login', response.data.message);
       }
     } catch (error) {
       console.error('Error logging in:', error);
-      // Handle error
-      // Replace with your logic
-      Alert.alert('Error', 'An error occurred while logging in. Please try again.');
+      Alert.alert('Error', 'Ocorreu um erro inesperado, tente mais tarde.');
     }
   };
 
   const handleRegister = () => {
-    // Handle registration functionality here
     navigation.navigate('Register');
   };
 

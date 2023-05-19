@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { styles } from './styles';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
-const tempPhoto = require('../../assets/images/post1.jpeg')
+// const tempPhoto = require('../../assets/images/post1.jpeg')
 
 const FeedScreen = () => {
   const navigation = useNavigation();
@@ -15,6 +15,12 @@ const FeedScreen = () => {
     fetchPosts();
   }, []);
 
+  useFocusEffect(
+    useCallback(() => {
+      fetchPosts();
+    }, [])
+  );
+
   const fetchPosts = async () => {
     try {
       const response = await axios.get('https://nodejs-production-c164.up.railway.app/donations');
@@ -22,16 +28,16 @@ const FeedScreen = () => {
     } catch (error) {
       console.error('Error fetching posts:', error);
     }
-    // <Image source={{ uri: `http://localhost:3000/photos/${post.photo}` }} style={styles.postImage} />
+    //<Image source={{ uri: `http://10.0.54.105:3000/photos/${posts.photo}` }} style={styles.postImage} />
   };
 
   const renderPosts = () => {
     return posts.map((post) => (
       <View key={post._id} style={styles.postContainer}>
         <Text style={styles.postTitle}>{post.title}</Text>
-        <Image source={{ uri: '../../assets/images/post1.jpeg' }} style={styles.postImage} />
+        <Image source={{ uri: `https://nodejs-production-c164.up.railway.app/photos/${post.photo}` }} style={styles.postImage} />
         <Text style={styles.postAddress}>{post.address}</Text>
-        <TouchableOpacity onPress={() => showPostDetailsPress(post)}>
+        <TouchableOpacity onPress={() => showPostDetailsPress (post )}>
           <Text style={styles.readMoreText}>Ver mais detalhes</Text>
         </TouchableOpacity>
       </View>
@@ -67,109 +73,3 @@ const FeedScreen = () => {
 };
 
 export default FeedScreen;
-
-// import React from 'react';
-// import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
-// import { styles } from './styles';
-// import { Ionicons } from '@expo/vector-icons';
-// import { useNavigation } from '@react-navigation/native';
-
-// const FeedScreen = () => {
-
-//   const navigation = useNavigation();
-
-//   const posts = [
-//     {
-//       id: 1,
-//       title: 'Post 1',
-//       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at ante ut tortor convallis eleifend. Pellentesque lacinia posuere felis, sed consequat velit. Proin placerat elementum felis, at congue mi tincidunt non. Pellentesque volutpat consectetur luctus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Morbi egestas, nunc id vulputate congue, justo dolor convallis urna, ut tristique eros mauris et felis.',
-//       address: '123 Main Street, São Paulo, Brazil',
-//       phoneNumber: '+55 11 1234-5678',
-//       image: require('../../assets/images/post1.jpeg'),
-//     },
-//     {
-//       id: 2,
-//       title: 'Post 2',
-//       description: 'Description for post 2',
-//       address: '123 Main Street, São Paulo, Brazil',
-//       phoneNumber: '+55 11 1234-5678',
-//       image: require('../../assets/images/post2.jpeg'),
-//     },
-//     {
-//       id: 3,
-//       title: 'Post 3',
-//       description: 'Description for post 3',
-//       address: '123 Main Street, São Paulo, Brazil',
-//       phoneNumber: '+55 11 1234-5678',
-//       image: require('../../assets/images/post3.jpeg'),
-//     },
-//     {
-//       id: 4,
-//       title: 'Post 4',
-//       description: 'Description for post 4',
-//       address: '123 Main Street, São Paulo, Brazil',
-//       phoneNumber: '+55 11 1234-5678',
-//       image: require('../../assets/images/post4.jpeg'),
-//     },
-//     {
-//       id: 5,
-//       title: 'Post 5',
-//       description: 'Description for post 5',
-//       address: '123 Main Street, São Paulo, Brazil',
-//       phoneNumber: '+55 11 1234-5678',
-//       image: require('../../assets/images/post5.jpeg'),
-//     },
-//   ];
-
-//   const renderPosts = () => {
-//     return posts.map((post) => (
-//         <View key={post.id} style={styles.postContainer}>
-//             <Text style={styles.postTitle}>{post.title}</Text>
-//             <Image source={post.image} style={styles.postImage} />
-//             <Text style={styles.postAddress}>{post.address}</Text>
-//             <Text style={styles.postPhoneNumber}>{post.phoneNumber}</Text>
-//             <TouchableOpacity onPress={() => showPostDetailsPress(post)}>
-//                 <Text style={styles.postDescription}>{truncateDescription(post.description)}</Text>
-//                 <Text style={styles.readMoreText}>Ver mais detalhes</Text>
-//             </TouchableOpacity>
-//         </View>
-//     ));
-//   };
-
-//   const showPostDetailsPress = (post) => {
-//     navigation.navigate('PostDetails', { post });
-//   };
-
-//   const handleProfilePress = () => {
-//     navigation.navigate('Profile');
-//   };
-
-//   const handlePostPress = () => {
-//     navigation.navigate('NewPost');
-//   };
-
-//   const truncateDescription = (description) => {
-//     const maxLength = 50;
-//     if (description.length > maxLength) {
-//       return `${description.substring(0, maxLength)}...`;
-//     }
-//     return description;
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <ScrollView style={styles.scrollContainer}>{renderPosts()}</ScrollView>
-  
-//       <View style={styles.menuContainer}>
-//         <TouchableOpacity style={styles.iconButton} onPress={handleProfilePress}>
-//           <Ionicons name="person-outline" size={24} color="black" />
-//         </TouchableOpacity>
-//         <TouchableOpacity style={styles.iconButton} onPress={handlePostPress}>
-//           <Ionicons name="add-circle-outline" size={24} color="black" />
-//         </TouchableOpacity>
-//       </View>
-//     </View>
-//   );
-// };
-
-// export default FeedScreen;
